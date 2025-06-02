@@ -1,0 +1,8 @@
+/* static/css/main.css */
+.badge-baixa { background-color: #28a745; }
+.badge-média { background-color: #ffc107; }
+.badge-alta { background-color: #dc3545; }
+
+.btn-checkin {
+    font-size: 0.8rem;
+}

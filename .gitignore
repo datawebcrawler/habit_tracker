@@ -1,0 +1,22 @@
+# Ambiente virtual
+venv/
+staticfiles/
+
+# Arquivos Python compilados
+__pycache__/
+*.py[cod]
+
+# Banco de dados
+db.sqlite3
+
+# Arquivos de ambiente
+.env
+
+# Logs
+*.log
+
+# Diretórios de migração (opcional)
+*/migrations/__pycache__/
+
+# Arquivos de sistema
+.DS_Store

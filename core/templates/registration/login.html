@@ -1,0 +1,21 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div class="container mt-5">
+    <h2>Login</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn btn-primary" type="submit">Entrar</button>
+    </form>
+    <p class="mt-3">Esqueceu a senha? <a href="{% url 'password_reset' %}">Recuperar senha</a></p>
+    <p class="mt-1">Não tem conta? <a href="{% url 'signup' %}">Registrar</a></p>
+</div>
+</body>
+</html>
