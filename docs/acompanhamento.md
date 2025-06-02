@@ -73,6 +73,19 @@ Templates: reflections/daily.html
 Modelo: Reminder (descrição, data, recorrência)
 Views: listar e marcar como feito
 Templates: reminders/list.html
+
+🗓️ schedules/ – Gerenciamento de Agendamentos
+Modelo: Schedule (activity [ForeignKey para Activity], scheduled_date, start_time, status [pendente, feito, adiado])
+Views: CRUD completo (listar, criar, editar, deletar) e funcionalidade de check-in.
+Templates: schedules/list.html, schedules/form.html
+URLs: Rotas para todas as views do CRUD e check-in, utilizando UUID como identificador.
+Funcionalidades:
+    - Usuários podem agendar atividades previamente cadastradas.
+    - Visualizar agendamentos em uma lista.
+    - Modificar data, hora, atividade ou status de um agendamento.
+    - Excluir agendamentos.
+    - Marcar agendamentos como "feitos" (check-in).
+    - Formulários filtram atividades para mostrar apenas as do usuário logado.
 📁 3. Organização de Pastas Dentro de Cada App
 Cada app seguirá esta estrutura básica:
 

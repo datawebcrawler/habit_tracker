@@ -6,10 +6,9 @@ from activities.models import Activity
 class Schedule(models.Model):
     STATUS_CHOICES = [('pendente', 'Pendente'), ('feito', 'Feito'), ('adiado', 'Adiado')]
 
-    id = models.CharField(
-        max_length=36,
+    id = models.UUIDField(
         primary_key=True,
-        default=str(uuid.uuid4),
+        default=uuid.uuid4,
         editable=False
     )
     activity = models.ForeignKey(
