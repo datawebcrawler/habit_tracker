@@ -56,113 +56,105 @@
     </div>
 
     <!-- Main Content -->
-    <div class="main-content">
-        <h2 class="mb-4">🧠 Bem-vindo ao seu Assistente de Hábitos, {{ username }}!</h2>
-        
-        <div class="row g-3">
-            <!-- Painel de Agendamentos -->
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header bg-dark text-white">
-                        Agendamentos do dia ({{ today }})
-                    </div>
-                    <div class="card-body">
-                        {% if scheduled_tasks %}
-                            <table class="table table-dark table-hover align-middle">
-                                <thead>
-                                    <tr>
-                                        <th>Tarefa</th>
-                                        <th>Prioridade</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for task in scheduled_tasks %}
-                                        <tr>
-                                            <td>{{ task.activity.activity }}</td>
-                                            <td>
-                                                <span class="badge bg-{{ task.activity.priority|lower }}">
-                                                    {{ task.activity.priority }}
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <button class="btn btn-sm btn-outline-success">✔️ Feito</button>
-                                            </td>
-                                        </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        {% else %}
-                            <p class="text-muted">Nenhuma tarefa pendente hoje.</p>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
+<div class="main-content px-3" style="max-width: 100%;">
+    <h2 class="mb-4">🧠 Bem-vindo ao seu Assistente de Hábitos, {{ username }}!</h2>
 
-            <!-- Painel de Atividades-->
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header bg-dark text-white">
-                        Suas atividades
-                    </div>
-                    <div class="card-body">
-                        {% if daily_activities %}
-                            <ul class="list-group list-group-flush">
-                                {% for activity in daily_activities %}
-                                    <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent">
-                                        {{ activity.activity }}
-                                        <button class="btn btn-sm btn-success">✔️</button>
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        {% else %}
-                            <p class="text-muted">Nenhum hábito definido ainda.</p>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-
-            <!-- Reflexão do Dia -->
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header bg-dark text-white">
-                        Sua Reflexão do Dia
-                    </div>
-                    <div class="card-body">
-                        {% if reflection_today %}
-                            <p>Já registrou sua reflexão de hoje? Ótimo!</p>
-                        {% else %}
-                            <p>Você ainda não registrou sua reflexão. Que tal fazer isso agora?</p>
-                            <a href="#" class="btn btn-info">Registrar Reflexão</a>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-
-            <!-- Lembretes -->
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header bg-dark text-white">
-                        Seus Lembretes
-                    </div>
-                    <div class="card-body">
-                        {% if reminders %}
-                            <ul class="list-group list-group-flush">
-                                {% for reminder in reminders %}
-                                    <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent">
-                                        {{ reminder.activity }}
-                                        <button class="btn btn-sm btn-success">✔️</button>
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        {% else %}
-                            <p>Nenhum lembrete definido ainda.</p>
-                            <a href="#" class="btn btn-info">Adicionar Lembrete</a>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
+    <!-- Painel de Agendamentos -->
+    <div class="card mb-4">
+        <div class="card-header bg-dark text-white">
+            Seus agendamentos do dia ({{ today }})
+        </div>
+        <div class="card-body">
+            {% if scheduled_tasks %}
+                <table class="table table-dark table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th>Tarefa</th>
+                            <th>Prioridade</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for task in scheduled_tasks %}
+                            <tr>
+                                <td>{{ task.activity.activity }}</td>
+                                <td>
+                                    <span class="badge bg-{{ task.activity.priority|lower }}">
+                                        {{ task.activity.priority }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-success">✔️ Feito</button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p class="text-muted">Nenhum agendamento marcado hoje.</p>
+                <a href="{% url 'schedules:schedule_list' %}" class="btn btn-info">Registrar Agendamento</a>
+            {% endif %}
         </div>
     </div>
+
+    <!-- Painel de Atividades -->
+    <div class="card mb-4">
+        <div class="card-header bg-dark text-white">
+            Suas atividades
+        </div>
+        <div class="card-body">
+            {% if daily_activities %}
+                <ul class="list-group list-group-flush">
+                    {% for activity in daily_activities %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent">
+                            {{ activity.activity }}
+                            <button class="btn btn-sm btn-success">✔️</button>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="text-muted">Nenhuma atividade definida ainda.</p>
+                {% endif %}
+            <a href="{% url 'activities:activity_list' %}" class="btn btn-info">Registrar Atividade</a>
+        </div>
+    </div>
+
+    <!-- Reflexão do Dia -->
+    <div class="card mb-4">
+        <div class="card-header bg-dark text-white">
+            Sua Reflexão do Dia
+        </div>
+        <div class="card-body">
+            {% if reflection_today %}
+                <p>Já registrou sua reflexão de hoje? Ótimo!</p>
+            {% else %}
+                <p>Você ainda não registrou sua reflexão. Que tal fazer isso agora?</p>
+                <a href="#" class="btn btn-info">Registrar Reflexão</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Lembretes -->
+    <div class="card mb-4">
+        <div class="card-header bg-dark text-white">
+            Seus Lembretes
+        </div>
+        <div class="card-body">
+            {% if reminders %}
+                <ul class="list-group list-group-flush">
+                    {% for reminder in reminders %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent">
+                            {{ reminder.activity }}
+                            <button class="btn btn-sm btn-success">✔️</button>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>Nenhum lembrete definido ainda.</p>
+                <a href="#" class="btn btn-info">Adicionar Lembrete</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
 </div>
 {% endblock %}
