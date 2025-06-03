@@ -14,7 +14,7 @@ habit_tracker/
 ├── dashboard/           # visão geral do dia (dashboard principal)
 ├── reflections/         # diário pessoal/reflexões diárias
 ├── reminders/           # notificações e lembretes recorrentes
-├── users/               # autenticação e perfil do usuário
+├── accounts/               # autenticação e perfil do usuário
 ├── core/                # apenas base.html e configurações gerais (sem lógica)
 ├── manage.py
 └── habit_tracker/       # settings, urls, wsgi, asgi
@@ -25,7 +25,7 @@ Abra o terminal na raiz do projeto (habit_tracker/) e execute os seguintes coman
 python manage.py startapp dashboard
 python manage.py startapp reflections
 python manage.py startapp reminders
-python manage.py startapp users
+python manage.py startapp accounts
 📦 1. Registrar as novas apps no settings.py
 No arquivo habit_tracker/settings.py, adicione as novas apps no final de INSTALLED_APPS:
 
@@ -42,7 +42,7 @@ INSTALLED_APPS = [
 
     # Minhas apps
     'core',
-    'users',
+    'accounts',
     'habits',
     'tasks',
     'dashboard',
@@ -50,7 +50,7 @@ INSTALLED_APPS = [
     'reminders',
 ]
 🗂️ 2. Distribuir Funcionalidades por App
-👤 users/ – Autenticação e perfil do usuário
+👤 accounts/ – Autenticação e perfil do usuário
 Modelo customizado de usuário (CustomUser)
 Telas de login, cadastro, perfil
 Configuração de plano (free/premium)

@@ -4,7 +4,7 @@ from django.contrib import admin
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from activities.models import Activity
-from users.models import CustomUser
+from accounts.models import CustomUser
 from schedules.models import Schedule
 from reflections.models import Reflection
 from reminders.models import Reminder

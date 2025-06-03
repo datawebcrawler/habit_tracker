@@ -3,7 +3,7 @@ import datetime
 from django.test import TestCase
 from django.urls import reverse
 from django.utils import timezone
-from users.models import CustomUser # Assumindo que CustomUser está em users.models
+from accounts.models import CustomUser # Assumindo que CustomUser está em accounts.models
 from activities.models import Activity
 from .models import Schedule
 

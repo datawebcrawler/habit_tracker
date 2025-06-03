@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django_extensions',
     # Minhas apps
     'core',
-    'users',
+    'accounts',
     'dashboard',
     'activities',
     'schedules',
@@ -137,7 +137,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # Custom user model
-AUTH_USER_MODEL = 'users.CustomUser'
+AUTH_USER_MODEL = 'accounts.CustomUser'
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = 'login'

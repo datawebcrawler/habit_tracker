@@ -5,13 +5,13 @@ rm -rf activities/migrations/000*.py
 rm -rf schedules/migrations/000*.py
 rm -rf reflections/migrations/000*.py
 rm -rf reminders/migrations/000*.py
-rm -rf users/migrations/000*.py
+rm -rf accounts/migrations/000*.py
 rm -rf core/migrations/__pycache__/
 rm -rf activities/migrations/__pycache__/
 rm -rf schedules/migrations/__pycache__/
 rm -rf reflections/migrations/__pycache__/
 rm -rf reminders/migrations/__pycache__/
-rm -rf users/migrations/__pycache__/
+rm -rf accounts/migrations/__pycache__/
 
 
 login
@@ -24,7 +24,7 @@ python manage.py makemigrations
 
 2. Se quiser fazer por app específica:
 
-python manage.py makemigrations core habits tasks reflections reminders users
+python manage.py makemigrations core habits tasks reflections reminders accounts
 
 3. Aplique as migrações no novo banco
 
@@ -52,4 +52,4 @@ python manage.py startapp schedules
 python manage.py startapp dashboard
 python manage.py startapp reflections
 python manage.py startapp reminders
-python manage.py startapp users
+python manage.py startapp accounts
