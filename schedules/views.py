@@ -2,8 +2,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import Schedule
-from activities.models import Activity
+from schedules.models import Schedule
 from schedules.forms import ScheduleForm
 
 @login_required
@@ -48,7 +47,6 @@ def schedule_delete(request, pk):
 
 @login_required
 def schedule_check_in(request, pk):
-    from datetime import date
     schedule = get_object_or_404(Schedule, pk=pk, activity__user=request.user)
     schedule.status = 'feito'
     schedule.save()
