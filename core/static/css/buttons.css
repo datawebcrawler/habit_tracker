@@ -1,0 +1,42 @@
+.btn-primary {
+    background-color: var(--btn-primary);
+    color: white;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.btn-success {
+    background-color: var(--btn-success);
+    color: white;
+}
+
+.btn-warning {
+    background-color: var(--btn-warning);
+    color: black;
+}
+
+.btn-danger {
+    background-color: var(--btn-danger);
+    color: white;
+}
+
+.btn-outline-light {
+    color: #fff;
+    border-color: #fff;
+}
+
+.btn-outline-light:hover {
+    background-color: #fff;
+    color: #121212;
+}
+
+.btn.w-100 {
+    max-width: 25%;
+    text-align: center;
+    padding: 0.6rem 1rem;
+    font-weight: 500;
+}

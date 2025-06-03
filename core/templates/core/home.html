@@ -1,160 +1,115 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Dashboard - Minha rotina diária {% endblock %}
+{% block title %}
+    Dashboard - Minha Rotina Diária
+{% endblock %}
 
 {% block extra_css %}
-<!-- Font Awesome -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"> 
-
-<!-- CSS customizado -->
-<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dark.css' %}">
+    <link rel="stylesheet" href="{% static 'css/buttons.css' %}">
+    <link rel="stylesheet" href="{% static 'css/cards.css' %}">
+    <link rel="stylesheet" href="{% static 'css/forms.css' %}">
+    <link rel="stylesheet" href="{% static 'css/header-footer.css' %}">
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
 {% endblock %}
 
 {% block content %}
-<div class="d-flex">
-    <!-- Sidebar -->
-    <div class="sidebar d-flex flex-column p-3 text-white">
-        <ul class="nav nav-pills flex-column mb-auto">
-            <li class="nav-item">
-                <a href="#" class="nav-link active" aria-current="page">
-                    <i class="fas fa-home me-2"></i> Início
-                </a>
-            </li>
-            <li>
-                <a href="{% url 'schedules:schedule_list' %}" class="nav-link text-white">
-                    <i class="fas fa-tasks me-2"></i> Agendamentos
-                </a>
-            </li>
-            <li>
-                {% if user.is_authenticated %}
-                <a href="{% url 'activities:activity_list' %}" class="nav-link text-white {% if request.path == '/activities/' %}active{% endif %}">
-                    <i class="fas fa-fire me-2"></i> Atividades
-                </a>
-                {% else %}
-                <a href="{% url 'login' %}" class="nav-link text-white disabled">
-                    <i class="fas fa-fire me-2"></i> Atividades
-                </a>
-                {% endif %}
-            </li>
-            <li>
-                <a href="#" class="nav-link text-white">
-                    <i class="fas fa-book-open me-2"></i> Reflexões
-                </a>
-            </li>
-            <li>
-                <a href="#" class="nav-link text-white">
-                    <i class="fas fa-bell me-2"></i> Lembretes
-                </a>
-            </li>
-            <li>
-                <a href="#" class="nav-link text-white">
-                    <i class="fas fa-chart-line me-2"></i> Progresso
-                </a>
-            </li>
-        </ul>
-    </div>
+<div class="container py-4">
+    <div class="d-flex flex-column gap-4">
 
-    <!-- Main Content -->
-<div class="main-content px-3" style="max-width: 100%;">
-    <h2 class="mb-4">🧠 Bem-vindo ao seu Assistente de Hábitos, {{ username }}!</h2>
-
-    <!-- Painel de Agendamentos -->
-    <div class="card mb-4">
-        <div class="card-header bg-dark text-white">
-            Seus agendamentos do dia ({{ today }})
-        </div>
-        <div class="card-body">
-            {% if scheduled_tasks %}
-                <table class="table table-dark table-hover align-middle">
-                    <thead>
-                        <tr>
-                            <th>Tarefa</th>
-                            <th>Prioridade</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+        <!-- Agendamentos do dia -->
+        <div class="card bg-dark text-white shadow-sm">
+            <div class="card-header bg-secondary">
+                <span>Seus agendamentos de hoje ({{ today }})</span>
+            </div>
+            <div class="card-body">
+                <!-- home.html -->
+                <p class="text-muted">Debug: scheduled_tasks = [{{ scheduled_tasks }}]</p>
+                {% if scheduled_tasks %}
+                    <ul class="list-group list-group-flush bg-transparent">
                         {% for task in scheduled_tasks %}
-                            <tr>
-                                <td>{{ task.activity.activity }}</td>
-                                <td>
-                                    <span class="badge bg-{{ task.activity.priority|lower }}">
-                                        {{ task.activity.priority }}
-                                    </span>
-                                </td>
-                                <td>
-                                    <button class="btn btn-sm btn-outline-success">✔️ Feito</button>
-                                </td>
-                            </tr>
+                            <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent">
+                                {{ task.activity.activity }}
+                                <span class="badge bg-{{ task.activity.priority|lower }}">
+                                    {{ task.activity.priority }}
+                                </span>
+                                <form action="{% url 'update_status' task.id %}" method="post">
+                                    {% csrf_token %}
+                                    <select name="status" onchange="this.form.submit()">
+                                        <option value="pendente" {% if task.status == 'pendente' %}selected{% endif %}>Pendente</option>
+                                        <option value="feito" {% if task.status == 'feito' %}selected{% endif %}>Feito</option>
+                                        <option value="adiado" {% if task.status == 'adiado' %}selected{% endif %}>Adiado</option>
+                                    </select>
+                                </form>
+                            </li>
                         {% endfor %}
-                    </tbody>
-                </table>
-            {% else %}
-                <p class="text-muted">Nenhum agendamento marcado hoje.</p>
-                <a href="{% url 'schedules:schedule_list' %}" class="btn btn-info">Registrar Agendamento</a>
-            {% endif %}
-        </div>
-    </div>
-
-    <!-- Painel de Atividades -->
-    <div class="card mb-4">
-        <div class="card-header bg-dark text-white">
-            Suas atividades
-        </div>
-        <div class="card-body">
-            {% if daily_activities %}
-                <ul class="list-group list-group-flush">
-                    {% for activity in daily_activities %}
-                        <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent">
-                            {{ activity.activity }}
-                            <button class="btn btn-sm btn-success">✔️</button>
-                        </li>
-                    {% endfor %}
-                </ul>
-            {% else %}
-                <p class="text-muted">Nenhuma atividade definida ainda.</p>
+                    </ul>
+                {% else %}
+                    <p class="text-muted">Nenhum agendamento marcado hoje.</p>
                 {% endif %}
-            <a href="{% url 'activities:activity_list' %}" class="btn btn-info">Registrar Atividade</a>
+                <a href="{% url 'schedules:schedule_list' %}" class="btn btn-info w-100">Registrar Agendamento</a>
+            </div>
         </div>
-    </div>
 
-    <!-- Reflexão do Dia -->
-    <div class="card mb-4">
-        <div class="card-header bg-dark text-white">
-            Sua Reflexão do Dia
+        <!-- Suas Atividades -->
+        <div class="card bg-dark text-white shadow-sm">
+            <div class="card-header bg-secondary">
+                <span>Suas Atividades</span>
+            </div>
+            <div class="card-body">
+                {% if daily_activities %}
+                    <ul class="list-group list-group-flush bg-transparent">
+                        {% for activity in daily_activities %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent">
+                                {{ activity.activity }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p class="text-muted">Nenhuma atividade definida ainda.</p>
+                {% endif %}
+                <a href="{% url 'activities:activity_list' %}" class="btn btn-info w-100">Registrar Atividade</a>
+            </div>
         </div>
-        <div class="card-body">
-            {% if reflection_today %}
-                <p>Já registrou sua reflexão de hoje? Ótimo!</p>
-            {% else %}
-                <p>Você ainda não registrou sua reflexão. Que tal fazer isso agora?</p>
-                <a href="#" class="btn btn-info">Registrar Reflexão</a>
-            {% endif %}
-        </div>
-    </div>
 
-    <!-- Lembretes -->
-    <div class="card mb-4">
-        <div class="card-header bg-dark text-white">
-            Seus Lembretes
+        <!-- Reflexão do Dia -->
+        <div class="card bg-dark text-white shadow-sm">
+            <div class="card-header bg-secondary">
+                Sua Reflexão do Dia
+            </div>
+            <div class="card-body">
+                {% if reflection_today %}
+                    <p>Já registrou sua reflexão de hoje? Ótimo!</p>
+                {% else %}
+                    <p>Você ainda não registrou sua reflexão. Que tal fazer isso agora?</p>
+                {% endif %}
+                <a href="#" class="btn btn-info w-100">Registrar Reflexão</a>
+            </div>
         </div>
-        <div class="card-body">
-            {% if reminders %}
-                <ul class="list-group list-group-flush">
-                    {% for reminder in reminders %}
-                        <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent">
-                            {{ reminder.activity }}
-                            <button class="btn btn-sm btn-success">✔️</button>
-                        </li>
-                    {% endfor %}
-                </ul>
-            {% else %}
-                <p>Nenhum lembrete definido ainda.</p>
-                <a href="#" class="btn btn-info">Adicionar Lembrete</a>
-            {% endif %}
+
+        <!-- Lembretes -->
+        <div class="card bg-dark text-white shadow-sm">
+            <div class="card-header bg-secondary">
+                Seus Lembretes
+            </div>
+            <div class="card-body">
+                {% if reminders %}
+                    <ul class="list-group list-group-flush bg-transparent">
+                        {% for reminder in reminders %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent">
+                                {{ reminder.description }}
+                                <button class="btn btn-sm btn-success">✔️</button>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p class="text-muted">Nenhum lembrete definido ainda.</p>
+                {% endif %}
+                <a href="#" class="btn btn-info w-100">Registrar Lembrete</a>
+            </div>
         </div>
     </div>
-</div>
 </div>
 {% endblock %}
